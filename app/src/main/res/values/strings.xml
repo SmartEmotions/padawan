@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Padawan</string>
+    <string name="action_search">Search</string>
+    <string name="action_search_hint">Who are you looking for ?</string>
+    <string name="user_phone_icon_description">Some string for accesibility</string>
+    <string name="user_posts_action_label">See posts</string>
+
+    <string name="user_posts_loading_label">Loading post user…</string>
+    <string name="user_loading_label">Loading users…</string>
+</resources>

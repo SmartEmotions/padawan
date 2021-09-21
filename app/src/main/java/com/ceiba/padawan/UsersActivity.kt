@@ -25,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class UsersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val boxStore = ObjectBox.store.boxFor( User::class.java )
@@ -78,14 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onQueryTextChange( searchString: String? ): Boolean {
                 if ( searchString != null ) {
-                    val query: Query<User> = boxStore
-                        .query()
-                        .contains(
-                            User_.name,
-                            searchString,
-                            QueryBuilder.StringOrder.CASE_INSENSITIVE )
-                        .build()
-                    updateDataUsers( query.find() )
+                    findUsers( searchString )
                 }
                 return true
             }
@@ -101,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun gotToUserPosts (user: User ) {
+    private fun gotToUserPosts ( user: User ) {
         val intent = Intent(this, UserPostsActivity()::class.java)
         intent.putExtra( USER_ID, user.identifier )
         startActivity( intent )
@@ -118,5 +111,16 @@ class MainActivity : AppCompatActivity() {
             headerAdapter.setMessage( message )
             usersAdapter.setUsers( userList )
         }
+    }
+
+    fun findUsers ( search: String ) {
+        val query: Query<User> = boxStore
+            .query()
+            .contains(
+                User_.name,
+                search,
+                QueryBuilder.StringOrder.CASE_INSENSITIVE )
+            .build()
+        updateDataUsers( query.find() )
     }
 }

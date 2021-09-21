@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.adapters.UsersAdapter
+import com.ceiba.padawan.adapters.UsersSearchAdapter
 import com.ceiba.padawan.data.User
 import com.ceiba.padawan.data.User_
 import com.ceiba.padawan.databinding.ActivityMainBinding
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var usersAdapter: UsersAdapter = UsersAdapter( users ) { user ->
         gotToUserPosts( user )
     }
+    private var headerAdapter: UsersSearchAdapter = UsersSearchAdapter( listOf() )
     private var observer: DataSubscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +55,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val usersListRecyclerView: RecyclerView = findViewById( R.id.users_list )
-        usersListRecyclerView.adapter = usersAdapter
+
+        usersListRecyclerView.adapter = ConcatAdapter( headerAdapter, usersAdapter )
         val query: Query<User> = boxStore.query().build()
         observer = query.subscribe().observer { data -> updateDataUsers( data ) }
         loader = findViewById( R.id.users_loader )
@@ -105,9 +109,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDataUsers ( userList: List<User> ) {
         runOnUiThread {
+            var message: List<String> = listOf()
             if ( userList.isNotEmpty() ) {
                 loader?.visibility = View.INVISIBLE
+            } else {
+                message = listOf("")
             }
+            headerAdapter.setMessage( message )
             usersAdapter.setUsers( userList )
         }
     }

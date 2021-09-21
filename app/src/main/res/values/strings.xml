@@ -7,4 +7,5 @@
 
     <string name="user_posts_loading_label">Loading post user…</string>
     <string name="user_loading_label">Loading users…</string>
+    <string name="user_not_found_label">No results</string>
 </resources>

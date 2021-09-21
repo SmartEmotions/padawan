@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.R
 import com.ceiba.padawan.data.Post
+import java.util.*
 
 class PostsAdapter(
     private var postData: List<Post>,
@@ -18,8 +19,18 @@ class PostsAdapter(
         private val body: TextView = view.findViewById( R.id.body )
 
         fun bind ( currentPost: Post ) {
-            title.text = currentPost.title
-            body.text = currentPost.body
+            title.text = currentPost.title?.replaceFirstChar {capitalize( it )}
+            body.text = currentPost.body?.replaceFirstChar { capitalize( it ) }
+        }
+
+        private fun capitalize (char: Char): String {
+            return if (char.isLowerCase()) {
+                char.titlecase(
+                    Locale.getDefault()
+                )
+            } else {
+                char.toString()
+            }
         }
     }
 

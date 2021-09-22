@@ -12,7 +12,7 @@ import com.ceiba.padawan.data.User
 import com.ceiba.padawan.data.User_
 import com.ceiba.padawan.services.ClientServices
 import com.ceiba.padawan.services.UserServices
-import com.ceiba.padawan.store.ObjectBox
+import com.ceiba.padawan.store.ObjectBoxStores.userStore
 import com.ceiba.padawan.utils.Constants.USER_ID
 import com.google.android.material.button.MaterialButton
 import io.objectbox.reactive.DataSubscription
@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 
 class UsersDetailActivity : AppCompatActivity() {
 
-    private val userBoxStore = ObjectBox.store.boxFor(User::class.java)
     private var postAdapter: PostsAdapter = PostsAdapter(listOf())
     private var observer: DataSubscription? = null
     private var userName: TextView? = null
@@ -48,7 +47,7 @@ class UsersDetailActivity : AppCompatActivity() {
         userPhone = findViewById(R.id.user_phone)
         userPosts.visibility = View.INVISIBLE
         currentUserId?.let {
-            val query = userBoxStore.query().equal(User_.id, it).build()
+            val query = userStore.query().equal(User_.id, it).build()
             observer = query.subscribe().observer { data -> updateDataUser(data[0]) }
         }
         val postListRecyclerView: RecyclerView = findViewById(R.id.post_list)
@@ -72,7 +71,7 @@ class UsersDetailActivity : AppCompatActivity() {
                     if (client.isSuccessful) {
                         val posts = client.body() as List<Post>
                         user.posts.addAll(posts)
-                        userBoxStore.put(user)
+                        userStore.put(user)
                     }
                 } catch (error: Throwable) {
                     print(error.message)

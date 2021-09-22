@@ -16,7 +16,7 @@ import com.ceiba.padawan.data.User_
 import com.ceiba.padawan.databinding.ActivityMainBinding
 import com.ceiba.padawan.services.ClientServices.retrofit
 import com.ceiba.padawan.services.UserServices
-import com.ceiba.padawan.store.ObjectBox
+import com.ceiba.padawan.store.ObjectBoxStores.userStore
 import com.ceiba.padawan.utils.Constants.USER_ID
 import io.objectbox.query.Query
 import io.objectbox.query.QueryBuilder
@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 class UsersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val boxStore = ObjectBox.store.boxFor(User::class.java)
     private var users: List<User> = arrayListOf()
     private var loader: View? = null
     private var usersAdapter: UsersAdapter = UsersAdapter(users) { user ->
@@ -44,13 +43,13 @@ class UsersActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        users = boxStore.all
+        users = userStore.all
         if (users.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val client = retrofit.create(UserServices::class.java).getUsers()
                     if (client.isSuccessful) {
-                        boxStore.put(client.body())
+                        userStore.put(client.body())
                     }
                 } catch (error: Throwable) {
                     print(error.message)
@@ -61,7 +60,7 @@ class UsersActivity : AppCompatActivity() {
         val usersListRecyclerView: RecyclerView = findViewById(R.id.users_list)
 
         usersListRecyclerView.adapter = ConcatAdapter(headerAdapter, usersAdapter)
-        val query: Query<User> = boxStore.query().build()
+        val query: Query<User> = userStore.query().build()
         observer = query.subscribe().observer { data -> updateDataUsers(data) }
         loader = findViewById(R.id.users_loader)
     }
@@ -120,7 +119,7 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private fun findUsers(search: String) {
-        val query: Query<User> = boxStore
+        val query: Query<User> = userStore
             .query()
             .contains(
                 User_.name,

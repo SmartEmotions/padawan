@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import kotlinx.coroutines.delay
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,13 +31,29 @@ class UsersActivityTest {
     }
 
     @Test
-    suspend fun searchClementine() {
+    fun gotToDetail() {
         // Maybe the first time, API will haven't respond
-        delay( 500 )
+        onView( withId( R.id.action_search ) ).perform( click() )
+        onView( withId( R.id.search_src_text ) ).perform( typeText( "" ) )
+        onView( withId( R.id.users_list ) )
+            .perform( scrollToPosition<RecyclerView.ViewHolder>(4) )
+            .perform( click() )
+        onView( withId( R.id.user_card_layout ) ).check(
+            matches(
+                hasDescendant(
+                    withText("Patricia Lebsack")
+                )
+            )
+        )
+    }
+
+    @Test
+    fun searchClementine() {
+        // Maybe the first time, API will haven't respond
         onView( withId( R.id.action_search ) ).perform( click() )
         onView( withId( R.id.search_src_text ) ).perform( typeText( stringToBetyped ) )
         onView( withId( R.id.users_list ) )
-            .perform( scrollToPosition<RecyclerView.ViewHolder>(1))
+            .perform( scrollToPosition<RecyclerView.ViewHolder>(1) )
             .check( matches( hasDescendant( withText( "Clementine Bauch" ) ) ) )
     }
 }

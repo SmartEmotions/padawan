@@ -32,7 +32,7 @@ class UsersActivity : AppCompatActivity() {
     private var users: List<User> = arrayListOf()
     private var loader: View? = null
     private var usersAdapter: UsersAdapter = UsersAdapter( users ) { user ->
-        gotToUserPosts( user )
+        gotToUserDetail( user )
     }
     private var headerAdapter: UsersSearchAdapter = UsersSearchAdapter( listOf() )
     private var observer: DataSubscription? = null
@@ -94,10 +94,12 @@ class UsersActivity : AppCompatActivity() {
         }
     }
 
-    private fun gotToUserPosts ( user: User ) {
-        val intent = Intent(this, UsersDetailActivity()::class.java)
-        intent.putExtra( USER_ID, user.identifier )
-        startActivity( intent )
+    private fun gotToUserDetail (user: User ) {
+        startActivity(
+            Intent( this, UsersDetailActivity::class.java).apply {
+                putExtra(USER_ID, user.identifier )
+            }
+        )
     }
 
     private fun updateDataUsers ( userList: List<User> ) {

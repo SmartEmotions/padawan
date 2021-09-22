@@ -1,2 +1,4 @@
 <resources>
+    <!-- TODO Add dimens responsive on different devices -->
+    <dimen name="card_elevation">4dp</dimen>
 </resources>

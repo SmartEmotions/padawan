@@ -6,14 +6,14 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
 
 @Entity
-data class Post (
+data class Post(
     @Id
     var identifier: Long = 0,
-    @SerializedName("id" )
+    @SerializedName("id")
     var id: Int = 0,
-    @SerializedName("title" )
+    @SerializedName("title")
     var title: String? = null,
-    @SerializedName("body" )
+    @SerializedName("body")
     var body: String? = null
 ) {
     lateinit var user: ToOne<User>

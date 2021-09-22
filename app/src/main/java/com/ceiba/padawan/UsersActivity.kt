@@ -2,10 +2,10 @@ package com.ceiba.padawan
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,13 +28,13 @@ import kotlinx.coroutines.launch
 class UsersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val boxStore = ObjectBox.store.boxFor( User::class.java )
+    private val boxStore = ObjectBox.store.boxFor(User::class.java)
     private var users: List<User> = arrayListOf()
     private var loader: View? = null
-    private var usersAdapter: UsersAdapter = UsersAdapter( users ) { user ->
-        gotToUserDetail( user )
+    private var usersAdapter: UsersAdapter = UsersAdapter(users) { user ->
+        gotToUserDetail(user)
     }
-    private var headerAdapter: UsersSearchAdapter = UsersSearchAdapter( listOf() )
+    private var headerAdapter: UsersSearchAdapter = UsersSearchAdapter(listOf())
     private var observer: DataSubscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,21 +45,21 @@ class UsersActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         users = boxStore.all
-        if ( users.isEmpty() ) {
-            CoroutineScope( Dispatchers.IO ).launch {
-                val client = retrofit.create( UserServices::class.java ).getUsers()
-                if( client.isSuccessful ) {
-                    boxStore.put( client.body() )
+        if (users.isEmpty()) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val client = retrofit.create(UserServices::class.java).getUsers()
+                if (client.isSuccessful) {
+                    boxStore.put(client.body())
                 }
                 // TODO Handle errors on request
             }
         }
-        val usersListRecyclerView: RecyclerView = findViewById( R.id.users_list )
+        val usersListRecyclerView: RecyclerView = findViewById(R.id.users_list)
 
-        usersListRecyclerView.adapter = ConcatAdapter( headerAdapter, usersAdapter )
+        usersListRecyclerView.adapter = ConcatAdapter(headerAdapter, usersAdapter)
         val query: Query<User> = boxStore.query().build()
-        observer = query.subscribe().observer { data -> updateDataUsers( data ) }
-        loader = findViewById( R.id.users_loader )
+        observer = query.subscribe().observer { data -> updateDataUsers(data) }
+        loader = findViewById(R.id.users_loader)
     }
 
     override fun onStop() {
@@ -68,61 +68,62 @@ class UsersActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate( R.menu.menu_main, menu )
+        menuInflater.inflate(R.menu.menu_main, menu)
         val search = menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
-        searchView.queryHint = resources.getString( R.string.action_search_hint )
+        searchView.queryHint = resources.getString(R.string.action_search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-            override fun onQueryTextChange( searchString: String? ): Boolean {
-                if ( searchString != null ) {
-                    findUsers( searchString )
+            override fun onQueryTextChange(searchString: String?): Boolean {
+                if (searchString != null) {
+                    findUsers(searchString)
                 }
                 return true
             }
         })
 
-        return super.onCreateOptionsMenu( menu )
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when ( item.itemId ) {
+        return when (item.itemId) {
             R.id.action_search -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun gotToUserDetail (user: User ) {
+    private fun gotToUserDetail(user: User) {
         startActivity(
-            Intent( this, UsersDetailActivity::class.java).apply {
-                putExtra(USER_ID, user.identifier )
+            Intent(this, UsersDetailActivity::class.java).apply {
+                putExtra(USER_ID, user.identifier)
             }
         )
     }
 
-    private fun updateDataUsers ( userList: List<User> ) {
+    private fun updateDataUsers(userList: List<User>) {
         runOnUiThread {
             var message: List<String> = listOf()
-            if ( userList.isNotEmpty() ) {
+            if (userList.isNotEmpty()) {
                 loader?.visibility = View.INVISIBLE
             } else {
                 message = listOf("")
             }
-            headerAdapter.setMessage( message )
-            usersAdapter.setUsers( userList )
+            headerAdapter.setMessage(message)
+            usersAdapter.setUsers(userList)
         }
     }
 
-    private fun findUsers ( search: String ) {
+    private fun findUsers(search: String) {
         val query: Query<User> = boxStore
             .query()
             .contains(
                 User_.name,
                 search,
-                QueryBuilder.StringOrder.CASE_INSENSITIVE )
+                QueryBuilder.StringOrder.CASE_INSENSITIVE
+            )
             .build()
-        updateDataUsers( query.find() )
+        updateDataUsers(query.find())
     }
 }

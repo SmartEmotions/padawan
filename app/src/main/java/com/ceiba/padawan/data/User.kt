@@ -6,18 +6,18 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 
 @Entity
-data class User (
+data class User(
     @Id
     var identifier: Long = 0,
-    @SerializedName("id" )
+    @SerializedName("id")
     var id: Int = 0,
-    @SerializedName("name" )
+    @SerializedName("name")
     var name: String? = null,
-    @SerializedName("username" )
+    @SerializedName("username")
     var username: String? = null,
-    @SerializedName("email" )
+    @SerializedName("email")
     var email: String? = null,
-    @SerializedName("phone" )
+    @SerializedName("phone")
     var phone: String? = null,
 ) {
     lateinit var posts: ToMany<Post>

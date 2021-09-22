@@ -5,8 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // Singleton Client
 object ClientServices {
-    val retrofit: Retrofit =  Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("https://jsonplaceholder.typicode.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 }

@@ -11,7 +11,7 @@ object ObjectBox {
 
     fun init(context: Context) {
         // TODO What are we going to do about migrations on schema ?
-        store = MyObjectBox.builder().baseDirectory( context.filesDir ).name("{{name}}")
+        store = MyObjectBox.builder().baseDirectory(context.filesDir).name("{{name}}")
             .androidContext(context.applicationContext)
             .build()
     }

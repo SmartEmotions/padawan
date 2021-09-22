@@ -67,11 +67,15 @@ class UsersDetailActivity : AppCompatActivity() {
         userPhone?.text = user.phone
         if (user.posts.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
-                val client = ClientServices.retrofit.create(UserServices::class.java).getPosts(user.id)
-                if (client.isSuccessful) {
-                    val posts = client.body() as List<Post>
-                    user.posts.addAll(posts)
-                    userBoxStore.put(user)
+                try {
+                    val client = ClientServices.retrofit.create(UserServices::class.java).getPosts(user.id)
+                    if (client.isSuccessful) {
+                        val posts = client.body() as List<Post>
+                        user.posts.addAll(posts)
+                        userBoxStore.put(user)
+                    }
+                } catch (error: Throwable) {
+                    print(error.message)
                 }
                 // TODO Handle errors on request
             }

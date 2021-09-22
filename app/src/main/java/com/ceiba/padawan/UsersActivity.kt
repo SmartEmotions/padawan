@@ -47,9 +47,13 @@ class UsersActivity : AppCompatActivity() {
         users = boxStore.all
         if (users.isEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
-                val client = retrofit.create(UserServices::class.java).getUsers()
-                if (client.isSuccessful) {
-                    boxStore.put(client.body())
+                try {
+                    val client = retrofit.create(UserServices::class.java).getUsers()
+                    if (client.isSuccessful) {
+                        boxStore.put(client.body())
+                    }
+                } catch (error: Throwable) {
+                    print(error.message)
                 }
                 // TODO Handle errors on request
             }

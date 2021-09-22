@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.adapters.UsersAdapter
 import com.ceiba.padawan.adapters.UsersSearchAdapter
-import com.ceiba.padawan.data.User
-import com.ceiba.padawan.data.User_
+import com.ceiba.padawan.store.vo.User
+import com.ceiba.padawan.store.vo.User_
 import com.ceiba.padawan.databinding.ActivityMainBinding
 import com.ceiba.padawan.services.ClientServices.retrofit
 import com.ceiba.padawan.services.UserServices

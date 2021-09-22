@@ -7,9 +7,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.adapters.PostsAdapter
-import com.ceiba.padawan.data.Post
-import com.ceiba.padawan.data.User
-import com.ceiba.padawan.data.User_
+import com.ceiba.padawan.store.vo.Post
+import com.ceiba.padawan.store.vo.User
+import com.ceiba.padawan.store.vo.User_
 import com.ceiba.padawan.services.ClientServices
 import com.ceiba.padawan.services.UserServices
 import com.ceiba.padawan.store.ObjectBoxStores.userStore

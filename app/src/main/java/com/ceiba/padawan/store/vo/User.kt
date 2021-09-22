@@ -1,4 +1,4 @@
-package com.ceiba.padawan.data
+package com.ceiba.padawan.store.vo
 
 import com.google.gson.annotations.SerializedName
 import io.objectbox.annotation.Entity

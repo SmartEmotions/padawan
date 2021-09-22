@@ -1,6 +1,6 @@
 package com.ceiba.padawan.store
 
-import com.ceiba.padawan.data.User
+import com.ceiba.padawan.store.vo.User
 import io.objectbox.Box
 
 object ObjectBoxStores {

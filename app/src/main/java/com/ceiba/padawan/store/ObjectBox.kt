@@ -1,7 +1,7 @@
 package com.ceiba.padawan.store
 
 import android.content.Context
-import com.ceiba.padawan.data.MyObjectBox
+import com.ceiba.padawan.store.vo.MyObjectBox
 import io.objectbox.BoxStore
 
 // Singleton Box

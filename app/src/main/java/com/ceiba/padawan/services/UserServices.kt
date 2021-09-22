@@ -1,7 +1,7 @@
 package com.ceiba.padawan.services
 
-import com.ceiba.padawan.data.Post
-import com.ceiba.padawan.data.User
+import com.ceiba.padawan.store.vo.Post
+import com.ceiba.padawan.store.vo.User
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

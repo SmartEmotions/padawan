@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.R
-import com.ceiba.padawan.data.User
+import com.ceiba.padawan.store.vo.User
 import com.google.android.material.button.MaterialButton
 
 class UsersAdapter(

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ceiba.padawan.R
-import com.ceiba.padawan.data.Post
+import com.ceiba.padawan.store.vo.Post
 import java.util.Locale
 
 class PostsAdapter(

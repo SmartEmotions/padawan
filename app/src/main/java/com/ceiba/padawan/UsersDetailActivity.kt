@@ -21,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UserPostsActivity : AppCompatActivity() {
+class UsersDetailActivity : AppCompatActivity() {
 
     private val userBoxStore = ObjectBox.store.boxFor( User::class.java )
     private var postAdapter: PostsAdapter = PostsAdapter( listOf() )

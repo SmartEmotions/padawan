@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import kotlinx.coroutines.delay
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,7 +32,9 @@ class UsersActivityTest {
     }
 
     @Test
-    fun changeText_sameActivity() {
+    suspend fun searchClementine() {
+        // Maybe the first time, API will haven't respond
+        delay( 500 )
         onView( withId( R.id.action_search ) ).perform( click() )
         onView( withId( R.id.search_src_text ) ).perform( typeText( stringToBetyped ) )
         onView( withId( R.id.users_list ) )

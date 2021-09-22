@@ -95,7 +95,7 @@ class UsersActivity : AppCompatActivity() {
     }
 
     private fun gotToUserPosts ( user: User ) {
-        val intent = Intent(this, UserPostsActivity()::class.java)
+        val intent = Intent(this, UsersDetailActivity()::class.java)
         intent.putExtra( USER_ID, user.identifier )
         startActivity( intent )
     }
@@ -113,7 +113,7 @@ class UsersActivity : AppCompatActivity() {
         }
     }
 
-    fun findUsers ( search: String ) {
+    private fun findUsers ( search: String ) {
         val query: Query<User> = boxStore
             .query()
             .contains(
